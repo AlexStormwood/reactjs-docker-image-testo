@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import environment from './utils/EnvironmentVariableHelper'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -14,7 +15,7 @@ function App() {
       if (import.meta.env.DEV) {
         targetUrl = "http://localhost:5000"
       } else {
-        targetUrl = `http://${import.meta.env.VITE_BACKEND_CONTAINER_NAME}:${import.meta.env.VITE_BACKEND_CONTAINER_PORT}/`;
+        targetUrl = `http://${environment.VITE_BACKEND_CONTAINER_NAME}:${environment.VITE_BACKEND_CONTAINER_PORT}/`;
       }
 
       let response = null;
