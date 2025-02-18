@@ -43,6 +43,11 @@ FROM nginx:stable-alpine AS production
 # Nginx will automatically serve up that directory as a static website!
 COPY --from=build /react-docker/dist /usr/share/nginx/html
 
+# If we use React Router and we're making a single-page application, we need to tell Nginx that
+# every request that the frontend receives should return `/index.html`.
+# If we dont', then Nginx will try to load new HTML files for each route of the React app!
+COPY /nginx-spa.conf /etc/nginx/conf.d/default.conf
+
 # Nginx will serve content on port 80.
 # Because Docker lets us do port mapping, we just have to remember that port 80 is the desired _internal_ port.
 # Our Docker Compose files or container configurations can still use whatever _host_ port we want, 

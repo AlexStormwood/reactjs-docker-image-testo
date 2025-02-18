@@ -25,13 +25,13 @@ services:
     restart: unless-stopped
   frontend:
     image: ghcr.io/alexstormwood/reactjs-docker-image-testo:latest
-	container_name: reactjstesto
-	ports:
-	  - 5000:80
-	env:
-	  - VITE_BACKEND_CONTAINER_NAME:expressjstesto
-	  - VITE_BACKEND_CONTAINER_PORT:5050
-	restart: unless-stopped
+    container_name: reactjstesto
+    ports:
+      - 5000:80
+    environment:
+      - VITE_BACKEND_CONTAINER_NAME:expressjstesto
+      - VITE_BACKEND_CONTAINER_PORT:5050
+    restart: unless-stopped
 ```
 
 You may note that in the ReactJS app, it makes a fetch request to an API. It is intended to make a request to a container named `expressjstesto`, running in the same Docker app. Docker automatically allows services within the same app to communicate with each other, via the container name and mapped port. So, JavaScript code like this:
