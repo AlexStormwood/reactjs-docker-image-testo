@@ -51,9 +51,9 @@ services:
 
 You may note that in the ReactJS app, it makes a fetch request to an API. It is intended to make a request to a container named `expressjstesto`, running in the same Docker app. 
 
-Now, if you learned _some_ Docker already, this will be a trap: Docker automatically allows services within the same app to communicate with each other, via the container name and mapped port. The ReactJS container can ping the ExpressJS container at `http://expressjstesto:5000` - that is the containers networking with each other, using internal ports as ports and container names as hostnames or domain names.
+Now, if you learned _some_ Docker already, you may fall for a trap: Docker automatically allows services within the same app to communicate with each other, via the container name and mapped port. The ReactJS container terminal/exec shell can ping the ExpressJS container at `http://expressjstesto:5000` - that is the containers networking with each other, using internal ports as ports and container names as hostnames or domain names.
 
-But ReactJS apps aren't making requests at a container level. They make requests when they're running in the browser. The browser is not the same as the container. It gets weird, I know.
+But ReactJS apps aren't making requests at a container level. They make fetch requests when they're running in the browser. The browser is not the same as the container. It gets weird, I know.
 
 Basically, we do not want to use Docker networking like:
 
@@ -83,3 +83,8 @@ http://localhost:5050/
 We're not using `import.meta.env` environment variables from Vite, as they are set at the ReactJS app build time - not helpful for us when we're setting the environment variables at runtime via the Docker Compose file. If you wanted to use a different backend hosted somewhere else in the world, the ReactJS app container has the environment variables configurable to allow that. 
 
 Anyway, a chunk of this project is based on this tutorial, with some tweaks and optimisations: [https://dev.to/dutchskull/setting-up-dynamic-environment-variables-with-vite-and-docker-5cmj](https://dev.to/dutchskull/setting-up-dynamic-environment-variables-with-vite-and-docker-5cmj)
+
+
+All of this to say that an `App.jsx` component like in the project's [App.jsx file](./src/App.jsx), will render a page like this:
+
+![Vite React app showing a JSON response from an API.](./docs/ReactRendered.png)
