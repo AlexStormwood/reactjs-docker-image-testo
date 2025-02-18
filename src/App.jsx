@@ -11,13 +11,9 @@ function App() {
   useEffect(() => {
 
     const fetchData = async () => {
-      let targetUrl = "";
-      if (import.meta.env.DEV) {
-        targetUrl = "http://localhost:5000"
-      } else {
-        targetUrl = `http://${environment.BACKEND_CONTAINER_NAME}:${environment.BACKEND_CONTAINER_PORT}/`;
-      }
-
+      let targetUrl = `http://${environment.BACKEND_CONTAINER_NAME}:${environment.BACKEND_CONTAINER_PORT}`;
+      console.log("Fetching from " + targetUrl);
+      
       let response = null;
       
       response = await fetch(targetUrl).then(async (response) => {
