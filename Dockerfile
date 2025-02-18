@@ -43,6 +43,13 @@ FROM nginx:stable-alpine AS production
 # Nginx will automatically serve up that directory as a static website!
 COPY --from=build /react-docker/dist /usr/share/nginx/html
 
+# Copy the env helper script into the docker pre-app scripts section.
+# This helps the Docker image run the script before the app starts up.
+COPY env.sh /docker-entrypoint.d/env.sh
+
+RUN dos2unix /docker-entrypoint.d/env.sh 
+RUN chmod +x /docker-entrypoint.d/env.sh
+
 # If we use React Router and we're making a single-page application, we need to tell Nginx that
 # every request that the frontend receives should return `/index.html`.
 # If we dont', then Nginx will try to load new HTML files for each route of the React app!

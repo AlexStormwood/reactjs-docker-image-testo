@@ -11,7 +11,6 @@ function App() {
 
     const fetchData = async () => {
       let targetUrl = "";
-      console.log("process.env.VITE_BACKEND_CONTAINER_NAME is currently " + process.env.VITE_BACKEND_CONTAINER_NAME);
       if (import.meta.env.DEV) {
         targetUrl = "http://localhost:5000"
       } else {
