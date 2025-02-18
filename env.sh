@@ -12,5 +12,4 @@ for i in $(env | grep "^$APP_ENV_PREFIX"); do
     echo "$key=$value"
 
     find "/usr/share/nginx/html/" -type f -exec sed -i 's|'"${key}"'|'"${value}"'|g' {} \;
-    find "/tmpl/dist/" -type f -exec sed -i 's|'"${key}"'|'"${value}"'|g' {} \;  
 done
