@@ -1,0 +1,35 @@
+name: Remove untagged Docker images
+
+on:
+  # Automatically do this every day, to keep our resource usage low in GitHub's billing system.
+  schedule: 
+    # Cron syntax for "at the end of every day"
+    #       minutes, hours in 24-hour time, day of the month, month, day of the week
+    #       0      , 0                    , any             , any  , any
+    - cron: 0 0 * * *
+  
+  # Also allow us to manually activate this action.
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Purpose of this workflow run.'
+        required: true
+        default: "Development"
+        type: string
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      # "latest" tag is always in use, and specific package versions
+      # may also be used as tags
+      # Anything untagged is absolutely worth deleting. 
+      - uses: actions/delete-package-versions@v5
+        with: 
+          package-name: 'reactjs-docker-image-testo'
+          package-type: 'container'
+          min-versions-to-keep: 3
+          delete-only-untagged-versions: 'true'
