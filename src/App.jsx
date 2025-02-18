@@ -11,9 +11,9 @@ function App() {
   useEffect(() => {
 
     const fetchData = async () => {
-      let targetUrl = `http://${environment.BACKEND_CONTAINER_NAME}:${environment.BACKEND_CONTAINER_PORT}`;
+      let targetUrl = `http://${environment.BACKEND_NETWORK_HOSTNAME}:${environment.BACKEND_NETWORK_PORT}`;
       console.log("Fetching from " + targetUrl);
-      
+
       let response = null;
       
       response = await fetch(targetUrl).then(async (response) => {

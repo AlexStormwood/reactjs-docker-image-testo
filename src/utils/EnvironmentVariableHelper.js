@@ -1,15 +1,15 @@
 class Environment {
     constructor() {
         if (import.meta.env.dev){
-            this.BACKEND_CONTAINER_NAME = "localhost";
-            this.BACKEND_CONTAINER_PORT = "5000";
+            this.BACKEND_NETWORK_HOSTNAME = "localhost";
+            this.environment = "5000";
         } else {
-            this.BACKEND_CONTAINER_NAME = "VITE_BACKEND_CONTAINER_NAME";
-            this.BACKEND_CONTAINER_PORT = "VITE_BACKEND_CONTAINER_PORT";
+            this.BACKEND_NETWORK_HOSTNAME = "VITE_BACKEND_NETWORK_HOSTNAME";
+            this.environment = "VITE_BACKEND_NETWORK_PORT";
         }
         
 
-        console.log(this.BACKEND_CONTAINER_NAME, this.BACKEND_CONTAINER_PORT);
+        console.log(this.BACKEND_NETWORK_HOSTNAME, this.environment);
     }
 }
 

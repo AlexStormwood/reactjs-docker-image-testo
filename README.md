@@ -44,19 +44,42 @@ services:
       - 5000:80
     environment:
       - APP_ENV_PREFIX=VITE_
-      - VITE_BACKEND_CONTAINER_NAME=expressjstesto
-      - VITE_BACKEND_CONTAINER_PORT=5050
+      - VITE_BACKEND_NETWORK_HOSTNAME=localhost
+      - VITE_BACKEND_NETWORK_PORT=5050
     restart: unless-stopped
 ```
 
-You may note that in the ReactJS app, it makes a fetch request to an API. It is intended to make a request to a container named `expressjstesto`, running in the same Docker app. Docker automatically allows services within the same app to communicate with each other, via the container name and mapped port. So, JavaScript code like this:
+You may note that in the ReactJS app, it makes a fetch request to an API. It is intended to make a request to a container named `expressjstesto`, running in the same Docker app. 
+
+Now, if you learned _some_ Docker already, this will be a trap: Docker automatically allows services within the same app to communicate with each other, via the container name and mapped port. The ReactJS container can ping the ExpressJS container at `http://expressjstesto:5000` - that is the containers networking with each other, using internal ports as ports and container names as hostnames or domain names.
+
+But ReactJS apps aren't making requests at a container level. They make requests when they're running in the browser. The browser is not the same as the container. It gets weird, I know.
+
+Basically, we do not want to use Docker networking like:
+
+```
+http://expressjstesto:5000/
+```
+
+Instead, we want to use browser-level networking like:
+
+```
+http://localhost:5050/
+```
+
+
+So, JavaScript code like this:
 
 ```js
-targetUrl = `http://${import.meta.env.VITE_BACKEND_CONTAINER_NAME}:${import.meta.env.VITE_BACKEND_CONTAINER_PORT}/`;
+targetUrl = `http://${environment.BACKEND_CONTAINER_NAME}:${environment.BACKEND_CONTAINER_PORT}/`;
 ```
 
-Expects a container with environment variables as shown above. This lets the `targetUrl` string value become:
+Expects environment variables declared in the Docker Compose file named `VITE_` plus the variable name. This lets the `targetUrl` string value become:
 
 ```
-http://expressjstesto:5050/
+http://localhost:5050/
 ```
+
+We're not using `import.meta.env` environment variables from Vite, as they are set at the ReactJS app build time - not helpful for us when we're setting the environment variables at runtime via the Docker Compose file. If you wanted to use a different backend hosted somewhere else in the world, the ReactJS app container has the environment variables configurable to allow that. 
+
+Anyway, a chunk of this project is based on this tutorial, with some tweaks and optimisations: [https://dev.to/dutchskull/setting-up-dynamic-environment-variables-with-vite-and-docker-5cmj](https://dev.to/dutchskull/setting-up-dynamic-environment-variables-with-vite-and-docker-5cmj)
