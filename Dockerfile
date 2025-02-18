@@ -41,7 +41,7 @@ FROM nginx:stable-alpine AS production
 
 # Grab files from the build stage and copy them into Nginx's HTML directory
 # Nginx will automatically serve up that directory as a static website!
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /react-docker/dist /usr/share/nginx/html
 
 # Nginx will serve content on port 80.
 # Because Docker lets us do port mapping, we just have to remember that port 80 is the desired _internal_ port.
