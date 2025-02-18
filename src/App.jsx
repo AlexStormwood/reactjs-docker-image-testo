@@ -15,7 +15,7 @@ function App() {
       if (import.meta.env.DEV) {
         targetUrl = "http://localhost:5000"
       } else {
-        targetUrl = `http://${environment.VITE_BACKEND_CONTAINER_NAME}:${environment.VITE_BACKEND_CONTAINER_PORT}/`;
+        targetUrl = `http://${environment.BACKEND_CONTAINER_NAME}:${environment.BACKEND_CONTAINER_PORT}/`;
       }
 
       let response = null;
